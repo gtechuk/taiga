@@ -25,7 +25,7 @@ sed -i "s/BACKENDPORT/$TAIGA_BACK_PORT/g" /etc/nginx/nginx.conf
 n=0
 until [ $n -ge 5 ]
 do
-    exec "$@" && break || true
+    nginx -g "daemon off;" && break || true
 
     n=$[$n+1]
     sleep 5

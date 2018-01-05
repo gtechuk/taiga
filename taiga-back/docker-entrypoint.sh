@@ -67,6 +67,6 @@ fi
 
 
 
-
+echo "Starting server on 0.0.0.0:8000"
 # Now just fire of the command
 python manage.py runserver 0.0.0.0:8000

@@ -9,7 +9,7 @@ RUN git clone -b stable https://github.com/taigaio/taiga-front-dist.git
 # 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
-ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["/docker-entrypoint.sh"]
 
 ADD nginx.conf /etc/nginx/nginx.conf
 
@@ -19,5 +19,3 @@ RUN mkdir logs
 EXPOSE 80
 
 STOPSIGNAL SIGTERM
-
-CMD ["nginx", "-g", "daemon off;"]
