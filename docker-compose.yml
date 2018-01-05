@@ -4,40 +4,43 @@ services:
     taiga-front:
         build: taiga-front
         environment:
-          - "VHOST=taiga.gtech.local"
+          - VIRTUAL_HOST=taiga.gtech.local
+          - "VHOST=$VHOST"
           - "TAIGA_BACK_HOST=taiga-back"
           - "TAIGA_BACK_PORT=8000"
-        ports:
-         - 80:80
         depends_on:
           - taiga-back
         links:
           - taiga-back
         volumes_from:
           - taiga-back:ro
-         
+        restart: unless-stopped
     taiga-back:
         build: taiga-back
         environment:
-          - "VHOST=taiga.gtech.local"
+          - "VHOST=$VHOST"
           - "TAIGA_DB_HOST=postgres"
-          - "TAIGA_DB_NAME=taigadb"
-          - "TAIGA_DB_USER=taiga"
-          - "TAIGA_DB_PASSWORD=password"
+          - "TAIGA_DB_NAME=$DB_NAME"
+          - "TAIGA_DB_USER=$DB_USER"
+          - "TAIGA_DB_PASSWORD=$DB_PASSWORD"
+          - "TAIGA_SECRET_KEY=$SECRET_KEY"
         ports:
-         - 8000:8000
+         - 8000
         links:
           - postgres
         depends_on:
           - postgres
         volumes:
           - ./media:/taiga-back/media
+        restart: unless-stopped
+
 
     postgres:
-      image: postgres
+      image: postgres:10.1
       environment:
-        POSTGRES_DB: taigadb
-        POSTGRES_USER: taiga
-        POSTGRES_PASSWORD: password
+        POSTGRES_DB: $DB_NAME
+        POSTGRES_USER: $DB_USER
+        POSTGRES_PASSWORD: $DB_PASSWORD
       volumes:
         - ./pgdata:/var/lib/postgresql/data
+      restart: unless-stopped

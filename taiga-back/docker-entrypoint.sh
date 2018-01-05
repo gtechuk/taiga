@@ -12,12 +12,14 @@ function testVar(){
 [ -z "$TAIGA_DB_HOST" ] && (print "TAIGA_DB_HOST environment variable not set" && exit)
 [ -z "$TAIGA_DB_NAME" ] && (print "TAIGA_DB_NAME environment variable not set" && exit)
 [ -z "$TAIGA_DB_USER" ] && (print "TAIGA_DB_USER environment variable not set" && exit)
+[ -z "$TAIGA_SECRET_KEY" ] && (print "TAIGA_SECRET_KEY environment variable not set" && exit)
 
 echo "from .common import *" > settings/local.py
 echo "MEDIA_URL = \"http://$VHOST/media/\"" >> settings/local.py
 echo "STATIC_URL = \"http://$VHOST/static/\"" >> settings/local.py
 echo 'SITES["front"]["scheme"] = "http"' >> settings/local.py
 echo "SITES[\"front\"][\"domain\"] = \"$VHOST\"" >> settings/local.py
+echo "SECRET_KEY = \"$TAIGA_SECRET_KEY\"" >> settings/local.py
 echo "DEBUG = False" >> settings/local.py
 echo "PUBLIC_REGISTER_ENABLED = False" >> settings/local.py
 echo "DEFAULT_FROM_EMAIL = \"no-reply@$VHOST\"" >> settings/local.py
@@ -67,6 +69,6 @@ fi
 
 
 
-echo "Starting server on 0.0.0.0:8000"
+echo "Starting server on 0.0.0.0:8000 for virtual host $VHOST"
 # Now just fire of the command
 python manage.py runserver 0.0.0.0:8000
