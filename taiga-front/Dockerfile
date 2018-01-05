@@ -2,7 +2,6 @@ FROM ubuntu:xenial
 
 RUN apt-get update && apt-get install -y nginx git
 
-WORKDIR /root
 
 # TAIGA FRONT
 RUN git clone -b stable https://github.com/taigaio/taiga-front-dist.git
@@ -13,5 +12,12 @@ RUN chmod +x /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
 ADD nginx.conf /etc/nginx/nginx.conf
+
+WORKDIR taiga-front-dist
+RUN mkdir logs
+
+EXPOSE 80
+
+STOPSIGNAL SIGTERM
 
 CMD ["nginx", "-g", "daemon off;"]
