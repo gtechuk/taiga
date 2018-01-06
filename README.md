@@ -2,6 +2,10 @@
 
 # Taiga Docker
 
+## Usage
+
+To use copy .example.env to .env and update with your own settings.
+
 ## Backup and Restore
 
 ### PostgreSQL
