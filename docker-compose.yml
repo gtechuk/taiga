@@ -4,7 +4,7 @@ services:
     taiga-front:
         build: taiga-front
         environment:
-          - VIRTUAL_HOST=taiga.gtech.local
+          - "VIRTUAL_HOST=$VHOST"
           - "VHOST=$VHOST"
           - "TAIGA_BACK_HOST=taiga-back"
           - "TAIGA_BACK_PORT=8000"
