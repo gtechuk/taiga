@@ -15,6 +15,10 @@ services:
         volumes_from:
           - taiga-back:ro
         restart: unless-stopped
+        logging:
+            driver: json-file
+            options:
+                max-size: "100m"
     taiga-back:
         build: taiga-back
         environment:
@@ -39,14 +43,22 @@ services:
         volumes:
           - ./media:/taiga-back/media
         restart: unless-stopped
+        logging:
+            driver: json-file
+            options:
+                max-size: "100m"
 
 
     postgres:
-      image: postgres:10.1
-      environment:
-        POSTGRES_DB: $DB_NAME
-        POSTGRES_USER: $DB_USER
-        POSTGRES_PASSWORD: $DB_PASSWORD
-      volumes:
-        - ./pgdata:/var/lib/postgresql/data
-      restart: unless-stopped
+        image: postgres:10.1
+        environment:
+            POSTGRES_DB: $DB_NAME
+            POSTGRES_USER: $DB_USER
+            POSTGRES_PASSWORD: $DB_PASSWORD
+        volumes:
+            - ./pgdata:/var/lib/postgresql/data
+        restart: unless-stopped
+        logging:
+            driver: json-file
+            options:
+                max-size: "100m"
