@@ -4,7 +4,8 @@ RUN apt-get update && apt-get install -y \
     build-essential binutils-doc autoconf flex bison libjpeg-dev \
     libfreetype6-dev zlib1g-dev libzmq3-dev libgdbm-dev libncurses5-dev \
     automake libtool libffi-dev curl git tmux gettext \
-    postgresql
+    postgresql \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /root/logs
 
@@ -18,6 +19,6 @@ RUN python manage.py collectstatic --noinput
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
-ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["/docker-entrypoint.sh"]
 
 EXPOSE 8000

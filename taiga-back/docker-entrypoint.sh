@@ -14,6 +14,8 @@ function testVar(){
 [ -z "$TAIGA_DB_USER" ] && (print "TAIGA_DB_USER environment variable not set" && exit)
 [ -z "$TAIGA_SECRET_KEY" ] && (print "TAIGA_SECRET_KEY environment variable not set" && exit)
 
+
+
 echo "from .common import *" > settings/local.py
 echo "MEDIA_URL = \"http://$VHOST/media/\"" >> settings/local.py
 echo "STATIC_URL = \"http://$VHOST/static/\"" >> settings/local.py
@@ -36,6 +38,20 @@ echo "        'HOST': '$TAIGA_DB_HOST'," >> settings/local.py
 echo "    }" >> settings/local.py
 echo "}" >> settings/local.py
 
+if [[ ! -z "$EMAIL_BACKEND" ]] ; then
+
+    : "${EMAIL_USE_TLS:=False}"
+    : "${EMAIL_USE_SSL:=False}"
+    : "${EMAIL_PORT:=25}"
+
+    echo "EMAIL_BACKEND = '$EMAIL_BACKEND'" >> settings/local.py
+    echo "EMAIL_USE_TLS = $EMAIL_USE_TLS" >> settings/local.py
+    echo "EMAIL_USE_SSL = $EMAIL_USE_SSL" >> settings/local.py
+    echo "EMAIL_HOST = '$EMAIL_HOST'" >> settings/local.py
+    echo "EMAIL_PORT = $EMAIL_PORT" >> settings/local.py
+    echo "EMAIL_HOST_USER = '$EMAIL_HOST_USER'" >> settings/local.py
+    echo "EMAIL_HOST_PASSWORD = '$EMAIL_HOST_PASSWORD'" >> settings/local.py
+fi
 
 n=0
 until [ $n -ge 10 ]
